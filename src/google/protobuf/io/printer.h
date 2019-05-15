@@ -94,7 +94,7 @@ class AnnotationProtoCollector : public AnnotationCollector {
 // text with variable substitutions.  Example usage:
 //
 //   Printer printer(output, '$');
-//   map<string, string> vars;
+//   std::map<string, string> vars;
 //   vars["name"] = "Bob";
 //   printer.Print(vars, "My name is $name$.");
 //
@@ -133,7 +133,7 @@ class AnnotationProtoCollector : public AnnotationCollector {
 // that should be annotated with the same source path.  For example:
 //
 //   Printer printer(output, '$');
-//   map<string, string> vars;
+//   std::map<string, string> vars;
 //   vars["first"] = "Alice";
 //   vars["last"] = "Smith";
 //   printer.Print(vars, "My name is $first$ $last$.");
@@ -151,7 +151,7 @@ class AnnotationProtoCollector : public AnnotationCollector {
 // templates:
 //
 //   Printer printer(output, '$');
-//   map<string, string> vars;
+//   std::map<string, string> vars;
 //   vars["foo"] = "bar";
 //   vars["function"] = "call";
 //   vars["mark"] = "";
@@ -225,7 +225,7 @@ class LIBPROTOBUF_EXPORT Printer {
   // substituted are identified by their names surrounded by delimiter
   // characters (as given to the constructor).  The variable bindings are
   // defined by the given map.
-  void Print(const map<string, string>& variables, const char* text);
+  void Print(const std::map<string, string>& variables, const char* text);
 
   // Like the first Print(), except the substitutions are given as parameters.
   void Print(const char* text);
@@ -331,7 +331,7 @@ class LIBPROTOBUF_EXPORT Printer {
   // start offset is the beginning of the substitution; the end offset is the
   // last byte of the substitution plus one (such that (end - start) is the
   // length of the substituted string).
-  map<string, pair<size_t, size_t> > substitutions_;
+  std::map<string, pair<size_t, size_t> > substitutions_;
 
   // Returns true and sets range to the substitution range in the output for
   // varname if varname was used once in the last call to Print. If varname

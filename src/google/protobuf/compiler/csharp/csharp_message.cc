@@ -99,7 +99,7 @@ const std::vector<const FieldDescriptor*>& MessageGenerator::fields_by_number() 
 }
 
 void MessageGenerator::Generate(io::Printer* printer) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars["class_name"] = class_name();
   vars["access_level"] = class_access_level();
 
@@ -265,7 +265,7 @@ bool MessageGenerator::HasNestedGeneratedTypes()
 }
 
 void MessageGenerator::GenerateCloningCode(io::Printer* printer) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   WriteGeneratedCodeAttributes(printer);
   vars["class_name"] = class_name();
     printer->Print(
@@ -318,7 +318,7 @@ void MessageGenerator::GenerateFreezingCode(io::Printer* printer) {
 }
 
 void MessageGenerator::GenerateFrameworkMethods(io::Printer* printer) {
-    map<string, string> vars;
+    std::map<string, string> vars;
     vars["class_name"] = class_name();
 
     // Equality
@@ -417,7 +417,7 @@ void MessageGenerator::GenerateMergingMethods(io::Printer* printer) {
   // Note:  These are separate from GenerateMessageSerializationMethods()
   //   because they need to be generated even for messages that are optimized
   //   for code size.
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars["class_name"] = class_name();
 
   WriteGeneratedCodeAttributes(printer);

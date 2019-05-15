@@ -45,7 +45,7 @@ bool IsProto3Field(const FieldDescriptor* field_descriptor) {
 }
 
 void SetMessageVariables(const FieldDescriptor* descriptor,
-                         map<string, string>* variables,
+                         std::map<string, string>* variables,
                          const Options& options) {
   SetCommonFieldVariables(descriptor, variables, options);
   (*variables)["type"] = FieldMessageTypeName(descriptor);
@@ -137,7 +137,7 @@ GenerateAccessorDeclarations(io::Printer* printer) const {
 void MapFieldGenerator::
 GenerateInlineAccessorDefinitions(io::Printer* printer,
                                   bool is_inline) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["inline"] = is_inline ? "inline" : "";
   printer->Print(variables,
       "$inline$ const ::google::protobuf::Map< $key_cpp$, $val_cpp$ >&\n"
@@ -154,7 +154,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
 
 void MapFieldGenerator::
 GenerateClearingCode(io::Printer* printer) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["this_message"] = dependent_field_ ? DependentBaseDownCast() : "";
   printer->Print(variables, "$this_message$$name$_.Clear();\n");
 }
@@ -252,7 +252,7 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
 }
 
 static void GenerateSerializationLoop(io::Printer* printer,
-                                      const map<string, string>& variables,
+                                      const std::map<string, string>& variables,
                                       bool supports_arenas,
                                       const string& utf8_check,
                                       const string& loop_header,
@@ -291,7 +291,7 @@ static void GenerateSerializationLoop(io::Printer* printer,
 
 void MapFieldGenerator::
 GenerateSerializeWithCachedSizes(io::Printer* printer) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["write_entry"] = "::google::protobuf::internal::WireFormatLite::Write" +
                              variables["stream_writer"] + "(\n            " +
                              variables["number"] + ", *entry, output)";
@@ -301,7 +301,7 @@ GenerateSerializeWithCachedSizes(io::Printer* printer) const {
 
 void MapFieldGenerator::
 GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["write_entry"] =
       "target = ::google::protobuf::internal::WireFormatLite::\n"
       "                   InternalWrite" + variables["declared_type"] +
@@ -312,7 +312,7 @@ GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const {
 }
 
 void MapFieldGenerator::GenerateSerializeWithCachedSizes(
-    io::Printer* printer, const map<string, string>& variables) const {
+    io::Printer* printer, const std::map<string, string>& variables) const {
   printer->Print(variables,
       "if (!this->$name$().empty()) {\n");
   printer->Indent();

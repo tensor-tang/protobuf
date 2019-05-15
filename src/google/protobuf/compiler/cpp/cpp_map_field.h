@@ -63,11 +63,11 @@ class MapFieldGenerator : public FieldGenerator {
  private:
   // A helper for GenerateSerializeWithCachedSizes{,ToArray}.
   void GenerateSerializeWithCachedSizes(
-      io::Printer* printer, const map<string, string>& variables) const;
+      io::Printer* printer, const std::map<string, string>& variables) const;
 
   const FieldDescriptor* descriptor_;
   const bool dependent_field_;
-  map<string, string> variables_;
+  std::map<string, string> variables_;
 
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(MapFieldGenerator);
 };

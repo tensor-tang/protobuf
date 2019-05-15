@@ -47,7 +47,7 @@ enum eMultipleFiles { JAVANANO_MUL_UNSET, JAVANANO_MUL_FALSE, JAVANANO_MUL_TRUE 
 // Parameters for used by the generators
 class Params {
  public:
-  typedef map<string, string> NameMap;
+  typedef std::map<string, string> NameMap;
   typedef set<string> NameSet;
  private:
   string empty_;

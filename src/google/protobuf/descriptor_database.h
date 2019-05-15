@@ -178,9 +178,9 @@ class LIBPROTOBUF_EXPORT SimpleDescriptorDatabase : public DescriptorDatabase {
                                  vector<int>* output);
 
    private:
-    map<string, Value> by_name_;
-    map<string, Value> by_symbol_;
-    map<pair<string, int>, Value> by_extension_;
+    std::map<string, Value> by_name_;
+    std::map<string, Value> by_symbol_;
+    std::map<pair<string, int>, Value> by_extension_;
 
     // Invariant:  The by_symbol_ map does not contain any symbols which are
     // prefixes of other symbols in the map.  For example, "foo.bar" is a
@@ -235,7 +235,7 @@ class LIBPROTOBUF_EXPORT SimpleDescriptorDatabase : public DescriptorDatabase {
 
     // Find the last entry in the by_symbol_ map whose key is less than or
     // equal to the given name.
-    typename map<string, Value>::iterator FindLastLessOrEqual(
+    typename std::map<string, Value>::iterator FindLastLessOrEqual(
         const string& name);
 
     // True if either the arguments are equal or super_symbol identifies a

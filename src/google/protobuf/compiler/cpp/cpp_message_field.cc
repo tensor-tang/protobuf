@@ -45,7 +45,7 @@ namespace cpp {
 namespace {
 
 void SetMessageVariables(const FieldDescriptor* descriptor,
-                         map<string, string>* variables,
+                         std::map<string, string>* variables,
                          const Options& options) {
   SetCommonFieldVariables(descriptor, variables, options);
   (*variables)["type"] = FieldMessageTypeName(descriptor);
@@ -218,7 +218,7 @@ GenerateDependentInlineAccessorDefinitions(io::Printer* printer) const {
     return;
   }
 
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   // For the CRTP base class, all mutation methods are dependent, and so
   // they must be in the header.
   variables["dependent_classname"] =
@@ -349,7 +349,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
     // for dependent fields we cannot access its internal_default_instance,
     // because the type is incomplete.
     // TODO(gerbens) deprecate dependent base class.
-    map<string, string> variables(variables_);
+    std::map<string, string> variables(variables_);
     variables["inline"] = is_inline ? "inline " : "";
     printer->Print(variables,
       "$inline$const $type$& $classname$::$name$() const {\n"
@@ -360,7 +360,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
     return;
   }
 
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["inline"] = is_inline ? "inline " : "";
   printer->Print(variables,
     "$inline$const $type$& $classname$::$name$() const {\n"
@@ -469,7 +469,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
 
 void MessageFieldGenerator::
 GenerateClearingCode(io::Printer* printer) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["this_message"] = dependent_field_ ? DependentBaseDownCast() : "";
   if (!HasFieldPresence(descriptor_->file())) {
     // If we don't have has-bits, message presence is indicated only by ptr !=
@@ -581,7 +581,7 @@ GenerateDependentInlineAccessorDefinitions(io::Printer* printer) const {
   if (!dependent_base_) {
     return;
   }
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["inline"] = "inline ";
   variables["dependent_classname"] =
       DependentBaseClassTemplateName(descriptor_->containing_type()) + "<T>";
@@ -601,7 +601,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
   if (dependent_base_) {
     return;
   }
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["inline"] = is_inline ? "inline " : "";
   variables["dependent_classname"] = variables["classname"];
   variables["this_message"] = "";
@@ -615,7 +615,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
 
 void MessageOneofFieldGenerator::
 GenerateNonInlineAccessorDefinitions(io::Printer* printer) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["field_member"] =
       variables["oneof_prefix"] + variables["name"] + "_";
 
@@ -623,7 +623,7 @@ GenerateNonInlineAccessorDefinitions(io::Printer* printer) const {
 }
 
 void MessageOneofFieldGenerator::
-InternalGenerateInlineAccessorDefinitions(const map<string, string>& variables,
+InternalGenerateInlineAccessorDefinitions(const std::map<string, string>& variables,
                                           io::Printer* printer) const {
   printer->Print(variables,
     "$tmpl$"
@@ -794,7 +794,7 @@ InternalGenerateInlineAccessorDefinitions(const map<string, string>& variables,
 
 void MessageOneofFieldGenerator::
 GenerateClearingCode(io::Printer* printer) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["this_message"] = dependent_field_ ? DependentBaseDownCast() : "";
   if (SupportsArenas(descriptor_)) {
     printer->Print(variables,
@@ -884,7 +884,7 @@ GenerateDependentInlineAccessorDefinitions(io::Printer* printer) const {
   if (!dependent_field_) {
     return;
   }
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   // For the CRTP base class, all mutation methods are dependent, and so
   // they must be in the header.
   variables["dependent_classname"] =
@@ -939,7 +939,7 @@ GenerateDependentInlineAccessorDefinitions(io::Printer* printer) const {
 void RepeatedMessageFieldGenerator::
 GenerateInlineAccessorDefinitions(io::Printer* printer,
                                   bool is_inline) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["inline"] = is_inline ? "inline " : "";
 
   if (!dependent_getter_) {
@@ -989,7 +989,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
 
 void RepeatedMessageFieldGenerator::
 GenerateClearingCode(io::Printer* printer) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["this_message"] = dependent_field_ ? DependentBaseDownCast() : "";
   printer->Print(variables, "$this_message$$name$_.Clear();\n");
 }

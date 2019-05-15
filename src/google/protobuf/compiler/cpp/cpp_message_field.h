@@ -68,14 +68,14 @@ class MessageFieldGenerator : public FieldGenerator {
   void GenerateByteSize(io::Printer* printer) const;
 
  protected:
-  void GenerateArenaManipulationCode(const map<string, string>& variables,
+  void GenerateArenaManipulationCode(const std::map<string, string>& variables,
                                      io::Printer* printer) const;
 
   virtual void GenerateGetterDeclaration(io::Printer* printer) const;
 
   const FieldDescriptor* descriptor_;
   const bool dependent_field_;
-  map<string, string> variables_;
+  std::map<string, string> variables_;
 
  private:
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(MessageFieldGenerator);
@@ -102,7 +102,7 @@ class MessageOneofFieldGenerator : public MessageFieldGenerator {
 
  private:
   void InternalGenerateInlineAccessorDefinitions(
-      const map<string, string>& variables, io::Printer* printer) const;
+      const std::map<string, string>& variables, io::Printer* printer) const;
 
   const bool dependent_base_;
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(MessageOneofFieldGenerator);
@@ -137,7 +137,7 @@ class RepeatedMessageFieldGenerator : public FieldGenerator {
   const FieldDescriptor* descriptor_;
   const bool dependent_field_;
   const bool dependent_getter_;
-  map<string, string> variables_;
+  std::map<string, string> variables_;
 
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(RepeatedMessageFieldGenerator);
 };

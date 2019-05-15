@@ -105,7 +105,7 @@ void EnumGenerator::Generate(io::Printer* printer) {
   }
 
   for (int i = 0; i < canonical_values_.size(); i++) {
-    map<string, string> vars;
+    std::map<string, string> vars;
     vars["name"] = canonical_values_[i]->name();
     vars["index"] = SimpleItoa(canonical_values_[i]->index());
     vars["number"] = SimpleItoa(canonical_values_[i]->number());
@@ -137,7 +137,7 @@ void EnumGenerator::Generate(io::Printer* printer) {
   // -----------------------------------------------------------------
 
   for (int i = 0; i < aliases_.size(); i++) {
-    map<string, string> vars;
+    std::map<string, string> vars;
     vars["classname"] = descriptor_->name();
     vars["name"] = aliases_[i].value->name();
     vars["canonical_name"] = aliases_[i].canonical_value->name();
@@ -147,7 +147,7 @@ void EnumGenerator::Generate(io::Printer* printer) {
   }
 
   for (int i = 0; i < descriptor_->value_count(); i++) {
-    map<string, string> vars;
+    std::map<string, string> vars;
     vars["name"] = descriptor_->value(i)->name();
     vars["number"] = SimpleItoa(descriptor_->value(i)->number());
     WriteEnumValueDocComment(printer, descriptor_->value(i));

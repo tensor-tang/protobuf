@@ -391,7 +391,7 @@ void FileGenerator::GenerateSource(io::Printer* printer) {
 class FileGenerator::ForwardDeclarations {
  public:
   ~ForwardDeclarations() {
-    for (map<string, ForwardDeclarations *>::iterator it = namespaces_.begin(),
+    for (std::map<string, ForwardDeclarations *>::iterator it = namespaces_.begin(),
                                                       end = namespaces_.end();
          it != end; ++it) {
       delete it->second;
@@ -407,11 +407,11 @@ class FileGenerator::ForwardDeclarations {
     return ns;
   }
 
-  map<string, const Descriptor*>& classes() { return classes_; }
-  map<string, const EnumDescriptor*>& enums() { return enums_; }
+  std::map<string, const Descriptor*>& classes() { return classes_; }
+  std::map<string, const EnumDescriptor*>& enums() { return enums_; }
 
   void Print(io::Printer* printer) const {
-    for (map<string, const EnumDescriptor *>::const_iterator
+    for (std::map<string, const EnumDescriptor *>::const_iterator
              it = enums_.begin(),
              end = enums_.end();
          it != end; ++it) {
@@ -420,13 +420,13 @@ class FileGenerator::ForwardDeclarations {
       printer->Print("bool $enumname$_IsValid(int value);\n", "enumname",
                      it->first);
     }
-    for (map<string, const Descriptor *>::const_iterator it = classes_.begin(),
+    for (std::map<string, const Descriptor *>::const_iterator it = classes_.begin(),
                                                          end = classes_.end();
          it != end; ++it) {
       printer->Print("class $classname$;\n", "classname", it->first);
       printer->Annotate("classname", it->second);
     }
-    for (map<string, ForwardDeclarations *>::const_iterator
+    for (std::map<string, ForwardDeclarations *>::const_iterator
              it = namespaces_.begin(),
              end = namespaces_.end();
          it != end; ++it) {
@@ -440,9 +440,9 @@ class FileGenerator::ForwardDeclarations {
 
 
  private:
-  map<string, ForwardDeclarations*> namespaces_;
-  map<string, const Descriptor*> classes_;
-  map<string, const EnumDescriptor*> enums_;
+  std::map<string, ForwardDeclarations*> namespaces_;
+  std::map<string, const Descriptor*> classes_;
+  std::map<string, const EnumDescriptor*> enums_;
 };
 
 void FileGenerator::GenerateBuildDescriptors(io::Printer* printer) {
@@ -955,11 +955,11 @@ void FileGenerator::GenerateGlobalStateFunctionDeclarations(
 }
 
 void FileGenerator::GenerateMessageForwardDeclarations(io::Printer* printer) {
-  map<string, const Descriptor*> classes;
+  std::map<string, const Descriptor*> classes;
   for (int i = 0; i < file_->message_type_count(); i++) {
     message_generators_[i]->FillMessageForwardDeclarations(&classes);
   }
-  for (map<string, const Descriptor *>::const_iterator it = classes.begin(),
+  for (std::map<string, const Descriptor *>::const_iterator it = classes.begin(),
                                                        end = classes.end();
        it != end; ++it) {
     printer->Print("class $classname$;\n", "classname", it->first);

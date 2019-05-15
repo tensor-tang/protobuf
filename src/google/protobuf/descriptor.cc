@@ -452,7 +452,7 @@ typedef hash_map<EnumIntPair, const EnumValueDescriptor*,
 // through all the extensions that extend a given Descriptor, and an
 // ordered data structure that implements lower_bound is convenient
 // for that.
-typedef map<DescriptorIntPair, const FieldDescriptor*>
+typedef std::map<DescriptorIntPair, const FieldDescriptor*>
   ExtensionsGroupedByDescriptorMap;
 typedef hash_map<string, const SourceCodeInfo_Location*> LocationsByPathMap;
 
@@ -4690,7 +4690,7 @@ void DescriptorBuilder::CheckEnumValueUniqueness(
   //     NAME_TYPE_LAST_NAME = 2,
   //   }
   PrefixRemover remover(result->name());
-  map<string, const google::protobuf::EnumValueDescriptor*> values;
+  std::map<string, const google::protobuf::EnumValueDescriptor*> values;
   for (int i = 0; i < result->value_count(); i++) {
     const google::protobuf::EnumValueDescriptor* value = result->value(i);
     string stripped =
@@ -5378,7 +5378,7 @@ void DescriptorBuilder::ValidateProto3Message(
   // In proto3, we reject field names if they conflict in camelCase.
   // Note that we currently enforce a stricter rule: Field names must be
   // unique after being converted to lowercase with underscores removed.
-  map<string, const FieldDescriptor*> name_to_field;
+  std::map<string, const FieldDescriptor*> name_to_field;
   for (int i = 0; i < message->field_count(); ++i) {
     string lowercase_name = ToLowercaseWithoutUnderscores(
         message->field(i)->name());
@@ -5518,7 +5518,7 @@ void DescriptorBuilder::ValidateFieldOptions(FieldDescriptor* field,
     if (!ValidateMapEntry(field, proto)) {
       AddError(field->full_name(), proto,
                DescriptorPool::ErrorCollector::OTHER,
-               "map_entry should not be set explicitly. Use map<KeyType, "
+               "map_entry should not be set explicitly. Use std::map<KeyType, "
                "ValueType> instead.");
     }
   }
@@ -5529,7 +5529,7 @@ void DescriptorBuilder::ValidateEnumOptions(EnumDescriptor* enm,
                                             const EnumDescriptorProto& proto) {
   VALIDATE_OPTIONS_FROM_ARRAY(enm, value, EnumValue);
   if (!enm->options().has_allow_alias() || !enm->options().allow_alias()) {
-    map<int, string> used_values;
+    std::map<int, string> used_values;
     for (int i = 0; i < enm->value_count(); ++i) {
       const EnumValueDescriptor* enum_value = enm->value(i);
       if (used_values.find(enum_value->number()) != used_values.end()) {
@@ -5656,7 +5656,7 @@ bool DescriptorBuilder::ValidateMapEntry(FieldDescriptor* field,
 
 void DescriptorBuilder::DetectMapConflicts(const Descriptor* message,
                                            const DescriptorProto& proto) {
-  map<string, const Descriptor*> seen_types;
+  std::map<string, const Descriptor*> seen_types;
   for (int i = 0; i < message->nested_type_count(); ++i) {
     const Descriptor* nested = message->nested_type(i);
     pair<map<string, const Descriptor*>::iterator, bool> result =
@@ -5676,7 +5676,7 @@ void DescriptorBuilder::DetectMapConflicts(const Descriptor* message,
   // Check for conflicted field names.
   for (int i = 0; i < message->field_count(); ++i) {
     const FieldDescriptor* field = message->field(i);
-    map<string, const Descriptor*>::iterator iter =
+    std::map<string, const Descriptor*>::iterator iter =
         seen_types.find(field->name());
     if (iter != seen_types.end() && iter->second->options().map_entry()) {
       AddError(message->full_name(), proto,
@@ -5688,7 +5688,7 @@ void DescriptorBuilder::DetectMapConflicts(const Descriptor* message,
   // Check for conflicted enum names.
   for (int i = 0; i < message->enum_type_count(); ++i) {
     const EnumDescriptor* enum_desc = message->enum_type(i);
-    map<string, const Descriptor*>::iterator iter =
+    std::map<string, const Descriptor*>::iterator iter =
         seen_types.find(enum_desc->name());
     if (iter != seen_types.end() && iter->second->options().map_entry()) {
       AddError(message->full_name(), proto,
@@ -5700,7 +5700,7 @@ void DescriptorBuilder::DetectMapConflicts(const Descriptor* message,
   // Check for conflicted oneof names.
   for (int i = 0; i < message->oneof_decl_count(); ++i) {
     const OneofDescriptor* oneof_desc = message->oneof_decl(i);
-    map<string, const Descriptor*>::iterator iter =
+    std::map<string, const Descriptor*>::iterator iter =
         seen_types.find(oneof_desc->name());
     if (iter != seen_types.end() && iter->second->options().map_entry()) {
       AddError(message->full_name(), proto,

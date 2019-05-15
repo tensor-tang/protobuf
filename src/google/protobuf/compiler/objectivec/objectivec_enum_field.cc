@@ -46,7 +46,7 @@ namespace objectivec {
 namespace {
 
 void SetEnumVariables(const FieldDescriptor* descriptor,
-                      map<string, string>* variables) {
+                      std::map<string, string>* variables) {
   string type = EnumName(descriptor->enum_type());
   (*variables)["storage_type"] = type;
   // For non repeated fields, if it was defined in a different file, the

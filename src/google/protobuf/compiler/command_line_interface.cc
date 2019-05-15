@@ -376,7 +376,7 @@ class CommandLineInterface::GeneratorContextImpl : public GeneratorContext {
 
   // map instead of hash_map so that files are written in order (good when
   // writing zips).
-  map<string, string*> files_;
+  std::map<string, string*> files_;
   const vector<const FileDescriptor*>& parsed_files_;
   bool had_error_;
 };
@@ -433,7 +433,7 @@ bool CommandLineInterface::GeneratorContextImpl::WriteAllToDisk(
     return false;
   }
 
-  for (map<string, string*>::const_iterator iter = files_.begin();
+  for (std::map<string, string*>::const_iterator iter = files_.begin();
        iter != files_.end(); ++iter) {
     const string& relative_filename = iter->first;
     const char* data = iter->second->data();
@@ -521,7 +521,7 @@ bool CommandLineInterface::GeneratorContextImpl::WriteAllToZip(
   io::FileOutputStream stream(file_descriptor);
   ZipWriter zip_writer(&stream);
 
-  for (map<string, string*>::const_iterator iter = files_.begin();
+  for (std::map<string, string*>::const_iterator iter = files_.begin();
        iter != files_.end(); ++iter) {
     zip_writer.Write(iter->first, *iter->second);
   }
@@ -551,7 +551,7 @@ void CommandLineInterface::GeneratorContextImpl::AddJarManifest() {
 
 void CommandLineInterface::GeneratorContextImpl::GetOutputFilenames(
     vector<string>* output_filenames) {
-  for (map<string, string*>::iterator iter = files_.begin();
+  for (std::map<string, string*>::iterator iter = files_.begin();
        iter != files_.end(); ++iter) {
     output_filenames->push_back(iter->first);
   }
@@ -1014,7 +1014,7 @@ CommandLineInterface::ParseArguments(int argc, const char* const argv[]) {
   }
 
   // Make sure each plugin option has a matching plugin output.
-  for (map<string, string>::const_iterator i = plugin_parameters_.begin();
+  for (std::map<string, string>::const_iterator i = plugin_parameters_.begin();
        i != plugin_parameters_.end(); ++i) {
     if (plugins_.find(i->first) == plugins_.end()) {
       std::cerr << "Unknown flag: "

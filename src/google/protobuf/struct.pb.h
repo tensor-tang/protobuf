@@ -141,7 +141,7 @@ class LIBPROTOBUF_EXPORT Struct : public ::google::protobuf::Message /* @@protoc
 
   // accessors -------------------------------------------------------
 
-  // map<string, .google.protobuf.Value> fields = 1;
+  // std::map<string, .google.protobuf.Value> fields = 1;
   int fields_size() const;
   void clear_fields();
   static const int kFieldsFieldNumber = 1;
@@ -495,7 +495,7 @@ extern ::google::protobuf::internal::ExplicitlyConstructed<ListValue> ListValue_
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
 // Struct
 
-// map<string, .google.protobuf.Value> fields = 1;
+// std::map<string, .google.protobuf.Value> fields = 1;
 inline int Struct::fields_size() const {
   return fields_.size();
 }

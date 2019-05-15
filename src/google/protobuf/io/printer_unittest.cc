@@ -121,7 +121,7 @@ TEST(Printer, VariableSubstitution) {
 
     {
       Printer printer(&output, '$');
-      map<string, string> vars;
+      std::map<string, string> vars;
 
       vars["foo"] = "World";
       vars["bar"] = "$foo$";
@@ -211,7 +211,7 @@ TEST(Printer, AnnotateMap) {
   AnnotationProtoCollector<GeneratedCodeInfo> info_collector(&info);
   {
     Printer printer(&output, '$', &info_collector);
-    map<string, string> vars;
+    std::map<string, string> vars;
     vars["foo"] = "3";
     vars["bar"] = "5";
     printer.Print(vars, "012$foo$4$bar$\n");
@@ -368,7 +368,7 @@ TEST(Printer, Indenting) {
 
     {
       Printer printer(&output, '$');
-      map<string, string> vars;
+      std::map<string, string> vars;
 
       vars["newline"] = "\n";
 

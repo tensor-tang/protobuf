@@ -97,11 +97,11 @@ bool SimpleDescriptorDatabase::DescriptorIndex<Value>::AddSymbol(
 
   // Try to look up the symbol to make sure a super-symbol doesn't already
   // exist.
-  typename map<string, Value>::iterator iter = FindLastLessOrEqual(name);
+  typename std::map<string, Value>::iterator iter = FindLastLessOrEqual(name);
 
   if (iter == by_symbol_.end()) {
     // Apparently the map is currently empty.  Just insert and be done with it.
-    by_symbol_.insert(typename map<string, Value>::value_type(name, value));
+    by_symbol_.insert(typename std::map<string, Value>::value_type(name, value));
     return true;
   }
 
@@ -128,7 +128,7 @@ bool SimpleDescriptorDatabase::DescriptorIndex<Value>::AddSymbol(
 
   // Insert the new symbol using the iterator as a hint, the new entry will
   // appear immediately before the one the iterator is pointing at.
-  by_symbol_.insert(iter, typename map<string, Value>::value_type(name, value));
+  by_symbol_.insert(iter, typename std::map<string, Value>::value_type(name, value));
 
   return true;
 }
@@ -179,7 +179,7 @@ Value SimpleDescriptorDatabase::DescriptorIndex<Value>::FindFile(
 template <typename Value>
 Value SimpleDescriptorDatabase::DescriptorIndex<Value>::FindSymbol(
     const string& name) {
-  typename map<string, Value>::iterator iter = FindLastLessOrEqual(name);
+  typename std::map<string, Value>::iterator iter = FindLastLessOrEqual(name);
 
   return (iter != by_symbol_.end() && IsSubSymbol(iter->first, name)) ?
          iter->second : Value();
@@ -197,7 +197,7 @@ template <typename Value>
 bool SimpleDescriptorDatabase::DescriptorIndex<Value>::FindAllExtensionNumbers(
     const string& containing_type,
     vector<int>* output) {
-  typename map<pair<string, int>, Value>::const_iterator it =
+  typename std::map<pair<string, int>, Value>::const_iterator it =
       by_extension_.lower_bound(std::make_pair(containing_type, 0));
   bool success = false;
 
@@ -211,13 +211,13 @@ bool SimpleDescriptorDatabase::DescriptorIndex<Value>::FindAllExtensionNumbers(
 }
 
 template <typename Value>
-typename map<string, Value>::iterator
+typename std::map<string, Value>::iterator
 SimpleDescriptorDatabase::DescriptorIndex<Value>::FindLastLessOrEqual(
     const string& name) {
   // Find the last key in the map which sorts less than or equal to the
   // symbol name.  Since upper_bound() returns the *first* key that sorts
   // *greater* than the input, we want the element immediately before that.
-  typename map<string, Value>::iterator iter = by_symbol_.upper_bound(name);
+  typename std::map<string, Value>::iterator iter = by_symbol_.upper_bound(name);
   if (iter != by_symbol_.begin()) --iter;
   return iter;
 }

@@ -315,16 +315,16 @@ class LIBPROTOC_EXPORT CommandLineInterface {
     CodeGenerator* generator;
     string help_text;
   };
-  typedef map<string, GeneratorInfo> GeneratorMap;
+  typedef std::map<string, GeneratorInfo> GeneratorMap;
   GeneratorMap generators_by_flag_name_;
   GeneratorMap generators_by_option_name_;
   // A map from generator names to the parameters specified using the option
   // flag. For example, if the user invokes the compiler with:
   //   protoc --foo_out=outputdir --foo_opt=enable_bar ...
   // Then there will be an entry ("--foo_out", "enable_bar") in this map.
-  map<string, string> generator_parameters_;
+  std::map<string, string> generator_parameters_;
   // Similar to generator_parameters_, but stores the parameters for plugins.
-  map<string, string> plugin_parameters_;
+  std::map<string, string> plugin_parameters_;
 
   // See AllowPlugins().  If this is empty, plugins aren't allowed.
   string plugin_prefix_;
@@ -332,7 +332,7 @@ class LIBPROTOC_EXPORT CommandLineInterface {
   // Maps specific plugin names to files.  When executing a plugin, this map
   // is searched first to find the plugin executable.  If not found here, the
   // PATH (or other OS-specific search strategy) is searched.
-  map<string, string> plugins_;
+  std::map<string, string> plugins_;
 
   // Stuff parsed from command line.
   enum Mode {

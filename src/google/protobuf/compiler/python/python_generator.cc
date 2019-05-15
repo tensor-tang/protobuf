@@ -405,7 +405,7 @@ void Generator::PrintImports() const {
 
 // Prints the single file descriptor for this file.
 void Generator::PrintFileDescriptor() const {
-  map<string, string> m;
+  std::map<string, string> m;
   m["descriptor_name"] = kDescriptorKey;
   m["name"] = file_->name();
   m["package"] = file_->package();
@@ -490,7 +490,7 @@ void Generator::PrintAllNestedEnumsInFile() const {
 // enum name to a Python EnumDescriptor object equivalent to
 // enum_descriptor.
 void Generator::PrintEnum(const EnumDescriptor& enum_descriptor) const {
-  map<string, string> m;
+  std::map<string, string> m;
   string module_level_descriptor_name =
       ModuleLevelDescriptorName(enum_descriptor);
   m["descriptor_name"] = module_level_descriptor_name;
@@ -584,7 +584,7 @@ void Generator::PrintServiceDescriptor(
       "$service_name$ = _descriptor.ServiceDescriptor(\n",
       "service_name", service_name);
   printer_->Indent();
-  map<string, string> m;
+  std::map<string, string> m;
   m["name"] = descriptor.name();
   m["full_name"] = descriptor.full_name();
   m["file"] = kDescriptorKey;
@@ -680,7 +680,7 @@ void Generator::PrintDescriptor(const Descriptor& message_descriptor) const {
                   "descriptor_name",
                   ModuleLevelDescriptorName(message_descriptor));
   printer_->Indent();
-  map<string, string> m;
+  std::map<string, string> m;
   m["name"] = message_descriptor.name();
   m["full_name"] = message_descriptor.full_name();
   m["file"] = kDescriptorKey;
@@ -740,7 +740,7 @@ void Generator::PrintDescriptor(const Descriptor& message_descriptor) const {
   printer_->Indent();
   for (int i = 0; i < message_descriptor.oneof_decl_count(); ++i) {
     const OneofDescriptor* desc = message_descriptor.oneof_decl(i);
-    map<string, string> m;
+    std::map<string, string> m;
     m["name"] = desc->name();
     m["full_name"] = desc->full_name();
     m["index"] = SimpleItoa(desc->index());
@@ -811,7 +811,7 @@ void Generator::PrintMessage(const Descriptor& message_descriptor,
   printer_->Indent();
 
   PrintNestedMessages(message_descriptor, qualified_name + ".", to_register);
-  map<string, string> m;
+  std::map<string, string> m;
   m["descriptor_key"] = kDescriptorKey;
   m["descriptor_name"] = ModuleLevelDescriptorName(message_descriptor);
   printer_->Print(m, "$descriptor_key$ = $descriptor_name$,\n");
@@ -860,7 +860,7 @@ void Generator::FixForeignFieldsInDescriptor(
     FixContainingTypeInDescriptor(enum_descriptor, &descriptor);
   }
   for (int i = 0; i < descriptor.oneof_decl_count(); ++i) {
-    map<string, string> m;
+    std::map<string, string> m;
     const OneofDescriptor* oneof = descriptor.oneof_decl(i);
     m["descriptor_name"] = ModuleLevelDescriptorName(descriptor);
     m["oneof_name"] = oneof->name();
@@ -879,7 +879,7 @@ void Generator::FixForeignFieldsInDescriptor(
 }
 
 void Generator::AddMessageToFileDescriptor(const Descriptor& descriptor) const {
-  map<string, string> m;
+  std::map<string, string> m;
   m["descriptor_name"] = kDescriptorKey;
   m["message_name"] = descriptor.name();
   m["message_descriptor_name"] = ModuleLevelDescriptorName(descriptor);
@@ -891,7 +891,7 @@ void Generator::AddMessageToFileDescriptor(const Descriptor& descriptor) const {
 
 void Generator::AddEnumToFileDescriptor(
     const EnumDescriptor& descriptor) const {
-  map<string, string> m;
+  std::map<string, string> m;
   m["descriptor_name"] = kDescriptorKey;
   m["enum_name"] = descriptor.name();
   m["enum_descriptor_name"] = ModuleLevelDescriptorName(descriptor);
@@ -903,7 +903,7 @@ void Generator::AddEnumToFileDescriptor(
 
 void Generator::AddExtensionToFileDescriptor(
     const FieldDescriptor& descriptor) const {
-  map<string, string> m;
+  std::map<string, string> m;
   m["descriptor_name"] = kDescriptorKey;
   m["field_name"] = descriptor.name();
   const char file_descriptor_template[] =
@@ -926,7 +926,7 @@ void Generator::FixForeignFieldsInField(const Descriptor* containing_type,
                                         const string& python_dict_name) const {
   const string field_referencing_expression = FieldReferencingExpression(
       containing_type, field, python_dict_name);
-  map<string, string> m;
+  std::map<string, string> m;
   m["field_ref"] = field_referencing_expression;
   const Descriptor* foreign_message_type = field.message_type();
   if (foreign_message_type) {
@@ -1025,7 +1025,7 @@ void Generator::FixForeignFieldsInExtension(
   FixForeignFieldsInField(extension_field.extension_scope(), extension_field,
                           "extensions_by_name");
 
-  map<string, string> m;
+  std::map<string, string> m;
   // Confusingly, for FieldDescriptors that happen to be extensions,
   // containing_type() means "extended type."
   // On the other hand, extension_scope() will give us what we normally
@@ -1058,7 +1058,7 @@ void Generator::PrintEnumValueDescriptor(
   // More circular references.  ::sigh::
   string options_string;
   descriptor.options().SerializeToString(&options_string);
-  map<string, string> m;
+  std::map<string, string> m;
   m["name"] = descriptor.name();
   m["index"] = SimpleItoa(descriptor.index());
   m["number"] = SimpleItoa(descriptor.number());
@@ -1091,7 +1091,7 @@ void Generator::PrintFieldDescriptor(
     const FieldDescriptor& field, bool is_extension) const {
   string options_string;
   field.options().SerializeToString(&options_string);
-  map<string, string> m;
+  std::map<string, string> m;
   m["name"] = field.name();
   m["full_name"] = field.full_name();
   m["index"] = SimpleItoa(field.index());

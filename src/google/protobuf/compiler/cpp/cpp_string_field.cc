@@ -46,7 +46,7 @@ namespace cpp {
 namespace {
 
 void SetStringVariables(const FieldDescriptor* descriptor,
-                        map<string, string>* variables,
+                        std::map<string, string>* variables,
                         const Options& options) {
   SetCommonFieldVariables(descriptor, variables, options);
   (*variables)["default"] = DefaultValue(descriptor);
@@ -165,7 +165,7 @@ GenerateAccessorDeclarations(io::Printer* printer) const {
 void StringFieldGenerator::
 GenerateInlineAccessorDefinitions(io::Printer* printer,
                                   bool is_inline) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["inline"] = is_inline ? "inline " : "";
   if (SupportsArenas(descriptor_)) {
     printer->Print(variables,
@@ -427,7 +427,7 @@ StringOneofFieldGenerator::~StringOneofFieldGenerator() {}
 void StringOneofFieldGenerator::
 GenerateInlineAccessorDefinitions(io::Printer* printer,
                                   bool is_inline) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["inline"] = is_inline ? "inline " : "";
   if (SupportsArenas(descriptor_)) {
     printer->Print(variables,
@@ -605,7 +605,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
 
 void StringOneofFieldGenerator::
 GenerateClearingCode(io::Printer* printer) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   if (dependent_field_) {
     variables["this_message"] = DependentBaseDownCast();
     // This clearing code may be in the dependent base class. If the default
@@ -733,7 +733,7 @@ GenerateAccessorDeclarations(io::Printer* printer) const {
 void RepeatedStringFieldGenerator::
 GenerateInlineAccessorDefinitions(io::Printer* printer,
                                   bool is_inline) const {
-  map<string, string> variables(variables_);
+  std::map<string, string> variables(variables_);
   variables["inline"] = is_inline ? "inline " : "";
   printer->Print(variables,
     "$inline$const ::std::string& $classname$::$name$(int index) const {\n"

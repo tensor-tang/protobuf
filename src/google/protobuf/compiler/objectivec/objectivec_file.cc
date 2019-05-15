@@ -468,7 +468,7 @@ void FileGenerator::GenerateSource(io::Printer *printer) {
 
   // File descriptor only needed if there are messages to use it.
   if (message_generators_.size() > 0) {
-    map<string, string> vars;
+    std::map<string, string> vars;
     vars["root_class_name"] = root_class_name_;
     vars["package"] = file_->package();
     vars["objc_prefix"] = FileClassPrefix(file_);

@@ -45,7 +45,7 @@ namespace objectivec {
 namespace {
 
 void SetMessageVariables(const FieldDescriptor* descriptor,
-                         map<string, string>* variables) {
+                         std::map<string, string>* variables) {
   const string& message_type = ClassName(descriptor->message_type());
   (*variables)["type"] = message_type;
   (*variables)["containing_class"] = ClassName(descriptor->containing_type());

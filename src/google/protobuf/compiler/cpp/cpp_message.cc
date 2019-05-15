@@ -443,7 +443,7 @@ size_t HasBitsSize(const Descriptor* descriptor) {
 
 // Collects map entry message type information.
 void CollectMapInfo(const Descriptor* descriptor,
-                    map<string, string>* variables) {
+                    std::map<string, string>* variables) {
   GOOGLE_CHECK(IsMapEntryMessage(descriptor));
   const FieldDescriptor* key = descriptor->FindFieldByName("key");
   const FieldDescriptor* val = descriptor->FindFieldByName("value");
@@ -535,7 +535,7 @@ MessageGenerator::MessageGenerator(const Descriptor* descriptor,
 MessageGenerator::~MessageGenerator() {}
 
 void MessageGenerator::
-FillMessageForwardDeclarations(map<string, const Descriptor*>* class_names) {
+FillMessageForwardDeclarations(std::map<string, const Descriptor*>* class_names) {
   (*class_names)[classname_] = descriptor_;
 
   for (int i = 0; i < descriptor_->nested_type_count(); i++) {
@@ -548,7 +548,7 @@ FillMessageForwardDeclarations(map<string, const Descriptor*>* class_names) {
 }
 
 void MessageGenerator::
-FillEnumForwardDeclarations(map<string, const EnumDescriptor*>* enum_names) {
+FillEnumForwardDeclarations(std::map<string, const EnumDescriptor*>* enum_names) {
   for (int i = 0; i < descriptor_->nested_type_count(); i++) {
     nested_generators_[i]->FillEnumForwardDeclarations(enum_names);
   }
@@ -585,7 +585,7 @@ GenerateDependentFieldAccessorDeclarations(io::Printer* printer) {
 
     PrintFieldComment(printer, field);
 
-    map<string, string> vars;
+    std::map<string, string> vars;
     SetCommonFieldVariables(field, &vars, options_);
 
     if (use_dependent_base_ && IsFieldDependent(field)) {
@@ -607,7 +607,7 @@ GenerateFieldAccessorDeclarations(io::Printer* printer) {
 
     PrintFieldComment(printer, field);
 
-    map<string, string> vars;
+    std::map<string, string> vars;
     SetCommonFieldVariables(field, &vars, options_);
     vars["constant_name"] = FieldConstantName(field);
 
@@ -688,7 +688,7 @@ GenerateDependentFieldAccessorDefinitions(io::Printer* printer) {
     // See the comment in FileGenerator::GenerateInlineFunctionDefinitions
     // for a more complete explanation.
     if (use_dependent_base_ && IsFieldDependent(field)) {
-      map<string, string> vars;
+      std::map<string, string> vars;
       SetCommonFieldVariables(field, &vars, options_);
       vars["inline"] = "inline ";
       if (field->containing_oneof()) {
@@ -725,7 +725,7 @@ GenerateDependentFieldAccessorDefinitions(io::Printer* printer) {
 
 void MessageGenerator::
 GenerateSingularFieldHasBits(const FieldDescriptor* field,
-                             map<string, string> vars,
+                             std::map<string, string> vars,
                              io::Printer* printer) {
   if (HasFieldPresence(descriptor_->file())) {
     // N.B.: without field presence, we do not use has-bits or generate
@@ -771,7 +771,7 @@ GenerateSingularFieldHasBits(const FieldDescriptor* field,
 void MessageGenerator::
 GenerateOneofHasBits(io::Printer* printer, bool is_inline) {
   for (int i = 0; i < descriptor_->oneof_decl_count(); i++) {
-    map<string, string> vars;
+    std::map<string, string> vars;
     vars["oneof_name"] = descriptor_->oneof_decl(i)->name();
     vars["oneof_index"] = SimpleItoa(descriptor_->oneof_decl(i)->index());
     vars["cap_oneof_name"] =
@@ -793,7 +793,7 @@ GenerateOneofHasBits(io::Printer* printer, bool is_inline) {
 
 void MessageGenerator::
 GenerateOneofMemberHasBits(const FieldDescriptor* field,
-                           const map<string, string>& vars,
+                           const std::map<string, string>& vars,
                            io::Printer* printer) {
   // Singular field in a oneof
   // N.B.: Without field presence, we do not use has-bits or generate
@@ -815,7 +815,7 @@ GenerateOneofMemberHasBits(const FieldDescriptor* field,
 
 void MessageGenerator::
 GenerateFieldClear(const FieldDescriptor* field,
-                   const map<string, string>& vars,
+                   const std::map<string, string>& vars,
                    io::Printer* printer) {
   // Generate clear_$name$() (See GenerateFieldAccessorDeclarations and
   // GenerateDependentFieldAccessorDeclarations, $dependent_classname$ is
@@ -863,7 +863,7 @@ GenerateFieldAccessorDefinitions(io::Printer* printer, bool is_inline) {
 
     PrintFieldComment(printer, field);
 
-    map<string, string> vars;
+    std::map<string, string> vars;
     SetCommonFieldVariables(field, &vars, options_);
     vars["inline"] = is_inline ? "inline " : "";
     if (use_dependent_base_ && IsFieldDependent(field)) {
@@ -925,7 +925,7 @@ GenerateDependentBaseClassDefinition(io::Printer* printer) {
     return;
   }
 
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars["classname"] = DependentBaseClassTemplateName(descriptor_);
   vars["full_name"] = descriptor_->full_name();
   vars["superclass"] = SuperClassName(descriptor_, options_);
@@ -967,7 +967,7 @@ GenerateClassDefinition(io::Printer* printer) {
       printer->Print("\n");
   }
 
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars["classname"] = classname_;
   vars["full_name"] = descriptor_->full_name();
   vars["field_count"] = SimpleItoa(descriptor_->field_count());
@@ -1549,7 +1549,7 @@ GenerateInlineMethods(io::Printer* printer, bool is_inline) {
 
   // Generate oneof_case() functions.
   for (int i = 0; i < descriptor_->oneof_decl_count(); i++) {
-    map<string, string> vars;
+    std::map<string, string> vars;
     vars["class_name"] = classname_;
     vars["camel_oneof_name"] = UnderscoresToCamelCase(
         descriptor_->oneof_decl(i)->name(), true);
@@ -1623,7 +1623,7 @@ void MessageGenerator::
 GenerateDescriptorInitializer(io::Printer* printer, int index) {
   // TODO(kenton):  Passing the index to this method is redundant; just use
   //   descriptor_->index() instead.
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars["classname"] = classname_;
   vars["index"] = SimpleItoa(index);
 
@@ -1737,7 +1737,7 @@ GenerateTypeRegistrations(io::Printer* printer) {
         "$classname$::internal_default_instance());\n",
         "classname", classname_);
   } else {
-    map<string, string> vars;
+    std::map<string, string> vars;
     CollectMapInfo(descriptor_, &vars);
     vars["classname"] = classname_;
 
@@ -2676,7 +2676,7 @@ void MessageGenerator::
 GenerateOneofClear(io::Printer* printer) {
   // Generated function clears the active field and union case (e.g. foo_case_).
   for (int i = 0; i < descriptor_->oneof_decl_count(); i++) {
-    map<string, string> oneof_vars;
+    std::map<string, string> oneof_vars;
     oneof_vars["classname"] = classname_;
     oneof_vars["oneofname"] = descriptor_->oneof_decl(i)->name();
     oneof_vars["full_name"] = descriptor_->full_name();
@@ -3450,7 +3450,7 @@ void MessageGenerator::GenerateSerializeOneField(
 void MessageGenerator::GenerateSerializeOneExtensionRange(
     io::Printer* printer, const Descriptor::ExtensionRange* range,
     bool to_array) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars["start"] = SimpleItoa(range->start);
   vars["end"] = SimpleItoa(range->end);
   printer->Print(vars,

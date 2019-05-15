@@ -71,9 +71,9 @@ class MessageGenerator {
   // descriptor that was responsible for its inclusion in the map. This can be
   // used to associate the descriptor with the code generated for it.
   void FillMessageForwardDeclarations(
-      map<string, const Descriptor*>* class_names);
+      std::map<string, const Descriptor*>* class_names);
   void FillEnumForwardDeclarations(
-      map<string, const EnumDescriptor*>* enum_names);
+      std::map<string, const EnumDescriptor*>* enum_names);
 
   // Generate definitions of all nested enums (must come before class
   // definitions because those classes use the enums definitions).
@@ -177,17 +177,17 @@ class MessageGenerator {
 
   // Generates has_foo() functions and variables for singular field has-bits.
   void GenerateSingularFieldHasBits(const FieldDescriptor* field,
-                                    map<string, string> vars,
+                                    std::map<string, string> vars,
                                     io::Printer* printer);
   // Generates has_foo() functions and variables for oneof field has-bits.
   void GenerateOneofHasBits(io::Printer* printer, bool is_inline);
   // Generates has_foo_bar() functions for oneof members.
   void GenerateOneofMemberHasBits(const FieldDescriptor* field,
-                                  const map<string, string>& vars,
+                                  const std::map<string, string>& vars,
                                   io::Printer* printer);
   // Generates the clear_foo() method for a field.
   void GenerateFieldClear(const FieldDescriptor* field,
-                          const map<string, string>& vars,
+                          const std::map<string, string>& vars,
                           io::Printer* printer);
 
   const Descriptor* descriptor_;

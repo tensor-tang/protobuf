@@ -71,7 +71,7 @@ Printer::~Printer() {
 
 bool Printer::GetSubstitutionRange(const char* varname,
                                    pair<size_t, size_t>* range) {
-  map<string, pair<size_t, size_t> >::const_iterator iter =
+  std::map<string, pair<size_t, size_t> >::const_iterator iter =
       substitutions_.find(varname);
   if (iter == substitutions_.end()) {
     GOOGLE_LOG(DFATAL) << " Undefined variable in annotation: " << varname;
@@ -106,7 +106,7 @@ void Printer::Annotate(const char* begin_varname, const char* end_varname,
   }
 }
 
-void Printer::Print(const map<string, string>& variables, const char* text) {
+void Printer::Print(const std::map<string, string>& variables, const char* text) {
   int size = strlen(text);
   int pos = 0;  // The number of bytes we've written so far.
   substitutions_.clear();
@@ -143,7 +143,7 @@ void Printer::Print(const map<string, string>& variables, const char* text) {
         WriteRaw(&variable_delimiter_, 1);
       } else {
         // Replace with the variable's value.
-        map<string, string>::const_iterator iter = variables.find(varname);
+        std::map<string, string>::const_iterator iter = variables.find(varname);
         if (iter == variables.end()) {
           GOOGLE_LOG(DFATAL) << " Undefined variable: " << varname;
         } else {
@@ -172,13 +172,13 @@ void Printer::Print(const map<string, string>& variables, const char* text) {
 }
 
 void Printer::Print(const char* text) {
-  static map<string, string> empty;
+  static std::map<string, string> empty;
   Print(empty, text);
 }
 
 void Printer::Print(const char* text,
                     const char* variable, const string& value) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars[variable] = value;
   Print(vars, text);
 }
@@ -186,7 +186,7 @@ void Printer::Print(const char* text,
 void Printer::Print(const char* text,
                     const char* variable1, const string& value1,
                     const char* variable2, const string& value2) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars[variable1] = value1;
   vars[variable2] = value2;
   Print(vars, text);
@@ -196,7 +196,7 @@ void Printer::Print(const char* text,
                     const char* variable1, const string& value1,
                     const char* variable2, const string& value2,
                     const char* variable3, const string& value3) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars[variable1] = value1;
   vars[variable2] = value2;
   vars[variable3] = value3;
@@ -208,7 +208,7 @@ void Printer::Print(const char* text,
                     const char* variable2, const string& value2,
                     const char* variable3, const string& value3,
                     const char* variable4, const string& value4) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars[variable1] = value1;
   vars[variable2] = value2;
   vars[variable3] = value3;
@@ -222,7 +222,7 @@ void Printer::Print(const char* text,
                     const char* variable3, const string& value3,
                     const char* variable4, const string& value4,
                     const char* variable5, const string& value5) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars[variable1] = value1;
   vars[variable2] = value2;
   vars[variable3] = value3;
@@ -238,7 +238,7 @@ void Printer::Print(const char* text,
                     const char* variable4, const string& value4,
                     const char* variable5, const string& value5,
                     const char* variable6, const string& value6) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars[variable1] = value1;
   vars[variable2] = value2;
   vars[variable3] = value3;
@@ -256,7 +256,7 @@ void Printer::Print(const char* text,
                     const char* variable5, const string& value5,
                     const char* variable6, const string& value6,
                     const char* variable7, const string& value7) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars[variable1] = value1;
   vars[variable2] = value2;
   vars[variable3] = value3;
@@ -276,7 +276,7 @@ void Printer::Print(const char* text,
                     const char* variable6, const string& value6,
                     const char* variable7, const string& value7,
                     const char* variable8, const string& value8) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars[variable1] = value1;
   vars[variable2] = value2;
   vars[variable3] = value3;

@@ -503,7 +503,7 @@ void MessageGenerator::GenerateSource(io::Printer* printer) {
           "    };\n");
     }
 
-    map<string, string> vars;
+    std::map<string, string> vars;
     vars["classname"] = class_name_;
     vars["rootclassname"] = root_classname_;
     vars["fields"] = has_fields ? "fields" : "NULL";

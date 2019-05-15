@@ -602,7 +602,7 @@ static Utf8CheckMode GetUtf8CheckMode(const FieldDescriptor* field,
 
 static void GenerateUtf8CheckCode(const FieldDescriptor* field,
                                   const Options& options, bool for_parse,
-                                  const map<string, string>& variables,
+                                  const std::map<string, string>& variables,
                                   const char* parameters,
                                   const char* strict_function,
                                   const char* verify_function,
@@ -652,7 +652,7 @@ static void GenerateUtf8CheckCode(const FieldDescriptor* field,
 
 void GenerateUtf8CheckCodeForString(const FieldDescriptor* field,
                                     const Options& options, bool for_parse,
-                                    const map<string, string>& variables,
+                                    const std::map<string, string>& variables,
                                     const char* parameters,
                                     io::Printer* printer) {
   GenerateUtf8CheckCode(field, options, for_parse, variables, parameters,
@@ -662,7 +662,7 @@ void GenerateUtf8CheckCodeForString(const FieldDescriptor* field,
 
 void GenerateUtf8CheckCodeForCord(const FieldDescriptor* field,
                                   const Options& options, bool for_parse,
-                                  const map<string, string>& variables,
+                                  const std::map<string, string>& variables,
                                   const char* parameters,
                                   io::Printer* printer) {
   GenerateUtf8CheckCode(field, options, for_parse, variables, parameters,

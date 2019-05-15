@@ -70,7 +70,7 @@ EnumGenerator::EnumGenerator(const EnumDescriptor* descriptor,
 EnumGenerator::~EnumGenerator() {}
 
 void EnumGenerator::FillForwardDeclaration(
-    map<string, const EnumDescriptor*>* enum_names) {
+    std::map<string, const EnumDescriptor*>* enum_names) {
   if (!options_.proto_h) {
     return;
   }
@@ -78,7 +78,7 @@ void EnumGenerator::FillForwardDeclaration(
 }
 
 void EnumGenerator::GenerateDefinition(io::Printer* printer) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars["classname"] = classname_;
   vars["short_name"] = descriptor_->name();
   vars["enumbase"] = classname_ + (options_.proto_h ? " : int" : "");
@@ -180,7 +180,7 @@ GenerateGetEnumDescriptorSpecializations(io::Printer* printer) {
 }
 
 void EnumGenerator::GenerateSymbolImports(io::Printer* printer) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars["nested_name"] = descriptor_->name();
   vars["classname"] = classname_;
   vars["constexpr"] = options_.proto_h ? "constexpr " : "";
@@ -231,7 +231,7 @@ void EnumGenerator::GenerateSymbolImports(io::Printer* printer) {
 
 void EnumGenerator::GenerateDescriptorInitializer(
     io::Printer* printer, int index) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars["classname"] = classname_;
   vars["index"] = SimpleItoa(index);
 
@@ -246,7 +246,7 @@ void EnumGenerator::GenerateDescriptorInitializer(
 }
 
 void EnumGenerator::GenerateMethods(io::Printer* printer) {
-  map<string, string> vars;
+  std::map<string, string> vars;
   vars["classname"] = classname_;
   vars["constexpr"] = options_.proto_h ? "constexpr " : "";
 

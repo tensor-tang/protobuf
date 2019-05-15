@@ -1404,7 +1404,7 @@ class FileDeduplicator {
 
  private:
   bool error_on_conflict_;
-  map<string, const void*> descs_by_filename_;
+  std::map<string, const void*> descs_by_filename_;
   set<const void*> allowed_descs_;
 };
 

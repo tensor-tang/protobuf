@@ -556,7 +556,7 @@ class LIBPROTOBUF_EXPORT SourceLocationTable {
   void Clear();
 
  private:
-  typedef map<
+  typedef std::map<
     pair<const Message*, DescriptorPool::ErrorCollector::ErrorLocation>,
     pair<int, int> > LocationMap;
   LocationMap location_map_;
